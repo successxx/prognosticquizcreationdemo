@@ -97,7 +97,7 @@
     <div id="tsparticles"></div>
     <div class="container">
         <!-- Typeform Embed -->
-        <div id="typeform-embed" data-tf-live="01J5GZE52WZCNE9AY46SGGTA61"></div>
+        <div id="typeform-embed" data-tf-live="YOUR_TYPEFORM_ID"></div>
     </div>
     <div class="level-up" id="level-up">LEVEL UP!</div>
     <div class="streak-counter" id="streak-counter">Streak: 1 🔥</div>
@@ -106,7 +106,6 @@
     <script src="//embed.typeform.com/next/embed.js"></script>
 
     <script>
-        let fetchInProgress = false;
         let streak = 0;
 
         function startProgressBar() {
@@ -180,34 +179,10 @@
             duration: 0.5,
         };
 
-        const completionParticlesConfig = {
-            particles: {
-                number: { value: 200 },
-                color: { value: ["#9370DB", "#6A5ACD", "#FFD700", "#FFA500", "#FF4500", "#9370DB", "#00CED1"] },
-                shape: { type: "star" },
-                opacity: { value: 0.8, random: true, anim: { enable: true, speed: 2 } },
-                size: { value: 6, random: true },
-                move: {
-                    enable: true,
-                    speed: 7,
-                    direction: "none",
-                    random: true,
-                    straight: false,
-                    out_mode: "out",
-                    bounce: false,
-                },
-            },
-            interactivity: {
-                detect_on: "canvas",
-                events: {
-                    onhover: { enable: false },
-                    onclick: { enable: false },
-                    resize: true
-                },
-            },
-            retina_detect: true,
-            duration: 3,
-        };
+        // You may want to trigger the animation when Typeform is submitted
+        document.querySelector('#typeform-embed').addEventListener('submit', function() {
+            triggerDopamineAnimation();
+        });
     </script>
 </body>
 </html>
