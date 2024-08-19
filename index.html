@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PrognosticAI Enabled</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.9.3/tsparticles.bundle.min.js"></script>
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #F7F7F7;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+
+        /* Center the entire page's content */
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Add Typeform embed styling */
+        #typeform-embed {
+            width: 100%;
+            height: 500px; /* Adjust this height as needed */
+            max-width: 600px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        #tsparticles {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
+
+        .progress-bar {
+            width: 0%;
+            height: 10px;
+            background: linear-gradient(to right, #ff9a9e, #fad0c4, #ffecd2);
+            position: fixed;
+            top: 0;
+            left: 0;
+            transition: width 0.5s ease-in-out;
+            box-shadow: 0 2px 10px rgba(255, 154, 158, 0.5);
+        }
+
+        /* Style for the level-up element */
+        .level-up {
+            font-size: 48px;
+            font-weight: bold;
+            color: #FFD700;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+            opacity: 0;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+        }
+
+        /* Add fade-out effect */
+        .fade-out {
+            animation: fadeOut 1s forwards;
+        }
+
+        @keyframes fadeOut {
+            0% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        /* Streak counter styling */
+        .streak-counter {
+            font-size: 18px;
+            color: #4CAF50;
+            margin-top: 20px;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar"></div>
+    <div id="tsparticles"></div>
+    <div class="container">
+        <!-- Typeform Embed -->
+        <div id="typeform-embed" data-tf-live="01J5GZE52WZCNE9AY46SGGTA61"></div>
+    </div>
+    <div class="level-up" id="level-up">LEVEL UP!</div>
+    <div class="streak-counter" id="streak-counter">Streak: 1 🔥</div>
+
+    <!-- Typeform Script -->
+    <script src="//embed.typeform.com/next/embed.js"></script>
+
+    <script>
+        let fetchInProgress = false;
+        let streak = 0;
+
+        function startProgressBar() {
+            const progressBar = document.querySelector('.progress-bar');
+            progressBar.style.width = '0%';
+            let width = 0;
+            const interval = setInterval(() => {
+                if (width >= 100) {
+                    clearInterval(interval);
+                } else {
+                    width++;
+                    progressBar.style.width = width + '%';
+                }
+            }, 20);
+        }
+
+        function updateStreak() {
+            const streakCounter = document.getElementById('streak-counter');
+            streakCounter.textContent = `Streak: ${streak} 🔥`;
+            streakCounter.style.opacity = '1';
+            setTimeout(() => {
+                streakCounter.style.opacity = '0';
+            }, 3000);
+        }
+
+        function showLevelUp() {
+            const levelUp = document.getElementById('level-up');
+            levelUp.style.opacity = '1';
+            levelUp.style.transform = 'translate(-50%, -50%) scale(1.2)';
+            setTimeout(() => {
+                levelUp.classList.add('fade-out');
+            }, 1500);
+        }
+
+        function triggerDopamineAnimation() {
+            tsParticles.load("tsparticles", startParticlesConfig);
+            startProgressBar();
+            streak++;
+            updateStreak();
+            if (streak % 3 === 0) {
+                showLevelUp();
+            }
+        }
+
+        const startParticlesConfig = {
+            particles: {
+                number: { value: 100 },
+                color: { value: ["#FFD700", "#FF6B6B", "#9370DB", "#6A5ACD", "#4ECDC4", "#45B7D1", "#FFA07A"] },
+                shape: { type: ["circle", "star"] },
+                opacity: { value: 1, anim: { enable: true, speed: 3, opacity_min: 0, sync: false } },
+                size: { value: 5, random: true, anim: { enable: true, speed: 6, size_min: 0.1, sync: false } },
+                move: {
+                    enable: true,
+                    speed: 8,
+                    direction: "outside",
+                    random: true,
+                    straight: false,
+                    out_mode: "out",
+                    bounce: false,
+                },
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: {
+                    onhover: { enable: false },
+                    onclick: { enable: false },
+                    resize: true
+                },
+            },
+            retina_detect: true,
+            duration: 0.5,
+        };
+
+        const completionParticlesConfig = {
+            particles: {
+                number: { value: 200 },
+                color: { value: ["#9370DB", "#6A5ACD", "#FFD700", "#FFA500", "#FF4500", "#9370DB", "#00CED1"] },
+                shape: { type: "star" },
+                opacity: { value: 0.8, random: true, anim: { enable: true, speed: 2 } },
+                size: { value: 6, random: true },
+                move: {
+                    enable: true,
+                    speed: 7,
+                    direction: "none",
+                    random: true,
+                    straight: false,
+                    out_mode: "out",
+                    bounce: false,
+                },
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: {
+                    onhover: { enable: false },
+                    onclick: { enable: false },
+                    resize: true
+                },
+            },
+            retina_detect: true,
+            duration: 3,
+        };
+    </script>
+</body>
+</html>
